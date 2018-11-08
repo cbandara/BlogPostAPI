@@ -9,12 +9,12 @@ const {BlogPosts} = require('./models')
 BlogPosts.create('title','content','author', Date.now())
 
 
-router.get('/blog-posts', (req, res) => {
+router.get('/', (req, res) => {
   res.json(BlogPosts.get())
 })
 
 
-router.post('/blog-posts', (req, res) => {
+router.post('/', (req, res) => {
   
   const requiredFields = ["title","content","author", "publishDate"]
   for (let i=0; i<requiredFields.length; i++) {
@@ -35,24 +35,24 @@ router.post('/blog-posts', (req, res) => {
 })
 
 
-router.delete('/blog-posts/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
   BlogPosts.delete(req.params.id)
   console.log(`Deleted blog posts: ${req.params.title}`)
   res.status(204).end()
 })
 
 
-router.put('/blog-posts/:id', (req, res) => {
+router.put('/:id', (req, res) => {
   // Not Working
-  const requiredFields = ["id", "title", "content", "author", "publishDate"]
-  for (let i=0; i<requiredFields.length; i++) {
-    const field = requiredFields[i];
-    if (!(field in req.body)) {
+   const requiredFields = ["id", "title", "content", "author", "publishDate"]
+   for (let i=0; i<requiredFields.length; i++) {
+     const field = requiredFields[i];
+   if (!(field in req.body)) {
       const message = `Missing ${field} in request body`
       console.error(message)
       return res.status(400).send(message);
+     }
     }
-  }
   
   if (req.params.id !== req.body.id) {
     const message = `Request path id (${req.params.id}) and 
@@ -60,16 +60,24 @@ router.put('/blog-posts/:id', (req, res) => {
     console.error(message)
     return res.status(400).send(message);
   }
-  console.log(`Updating blog post ${req.params.title}`)
-  BlogPosts.update({
-    id: req.params.id,
-    // One version uses req.body and the other uses req.params??
-    title: req.params.title,
-    content: req.params.content,
-    author: req.params.author,
-    publishDate: req.params.publishDate
-  })
-  res.status(204).end
+  console.log(req.body)
+  console.log(`Updating blog post ${req.body.title}`)
+  try {
+    BlogPosts.update({
+      id: req.body.id,
+      // One version uses req.body and the other uses req.params??
+      title: req.body.title,
+      content: req.body.content,
+      author: req.body.author,
+      publishDate: req.body.publishDate
+    })
+  }
+  catch (e) {
+    console.log(e)
+    res.status(400).send(e.message)
+  }
+  
+   res.status(204).end()
 
 })
 

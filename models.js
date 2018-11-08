@@ -51,6 +51,7 @@ const BlogPosts = {
     const postIndex = this.posts.findIndex(
       post => post.id === updatedPost.id);
     if (postIndex === -1) {
+      console.log("id doesn't exist")
       throw new StorageException(
         `Can't update item \`${id}\` because doesn't exist.`)
     }
