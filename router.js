@@ -43,7 +43,6 @@ router.delete('/:id', (req, res) => {
 
 
 router.put('/:id', (req, res) => {
-  // Not Working
    const requiredFields = ["id", "title", "content", "author", "publishDate"]
    for (let i=0; i<requiredFields.length; i++) {
      const field = requiredFields[i];
