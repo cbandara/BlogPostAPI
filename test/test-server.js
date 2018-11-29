@@ -12,6 +12,10 @@ describe("Blog Posts", function() {
     return runServer ();
   })
 
+  after(function () {
+    return closeServer();
+  })
+
   it("should list items on GET", function() {
     return chai.request(app)
       .get("/blog-posts")
@@ -38,9 +42,11 @@ describe("Blog Posts", function() {
     const newPost = {
       title: "Lorem ipsum",
       content: "foo bar",
-      author: "Emma Goldman"
+      author: "Emma Goldman",
+      publishDate: Date.now()
     }
-    const expectedKeys = ["id", "publishDate"].concat(Object.keys(newPost));
+
+    const expectedKeys = ["id"].concat(Object.keys(newPost));
 
     return chai.request(app)
       .post("/blog-posts")
