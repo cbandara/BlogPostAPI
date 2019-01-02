@@ -19,6 +19,7 @@
   "homepage": "https://github.com/cbandara/BlogPostAPI#readme",
   "dependencies": {
     "express": "^4.16.4",
+    "mongoose": "^5.4.0",
     "morgan": "^1.9.1",
     "nodemon": "^1.18.6",
     "uuid": "^3.3.2"
