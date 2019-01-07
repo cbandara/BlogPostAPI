@@ -4,22 +4,22 @@ const uuid = require('uuid');
 const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 
-const commentSchema = mongoose.Schema({content: 'string'})
+const commentSchema = mongoose.Schema({content: String})
 
 const authorSchema = mongoose.Schema({
-  firstName: 'string',
-  lastName: 'string',
+  firstName: String,
+  lastName: String,
   userName: {
-    type: 'string',
+    type: String,
     unique: true
   }
 })
 
 const blogPostSchema = mongoose.Schema({
   title: {type: String, required: true},
-  content: {type: String}, // Why does this have to be an object
+  content: {type: String},
   created: {type: Date, default: Date.now},
-  author: {type: mongoose.Schema.Types.ObjectId, ref: 'Author'}
+  author: {type: mongoose.Schema.Types.ObjectId, ref: 'Author'},
   comments: [commentSchema]
 })
 
@@ -44,7 +44,7 @@ blogPostSchema.methods.serialize = function() {
     title: this.title,
     content: this.content,
     author: this.authorName,
-    created: this.created
+    created: this.created,
     comments: this.comments
   }
 }
