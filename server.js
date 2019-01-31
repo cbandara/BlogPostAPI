@@ -135,7 +135,8 @@ app.get('/posts', (req, res) => {
 
 app.get('/posts/:id', (req, res) => {
   BlogPost.findById(req.params.id)
-  .then(post => res.json(post.serialize()))
+  .then(post => {
+    res.json(post.serialize())})
   .catch(err => {
     console.error(err)
     res.status(500).json({error: 'something went horribly wrong'})
@@ -195,6 +196,8 @@ app.put('/posts/:id', (req, res) => {
     content: req.body.content,
     author: req.body.author  
   }
+  console.log(updated)
+  console.log(req.params.id)
   BlogPost.findByIdAndUpdate(req.params.id, {$set: updated}, {new: true})
   .then(updatedPost => res.status(204).end())
   .catch(err => res.status(500).json({message: 'Something went wrong'}))
@@ -234,7 +237,7 @@ function runServer(databaseUrl, port = PORT) {
 
 function closeServer() {
   return mongoose.disconnect().then(() => {
-    return new Promise((resole, reject) => {
+    return new Promise((resolve, reject) => {
       console.log('Closing server')
       server.close(err =>
          {
