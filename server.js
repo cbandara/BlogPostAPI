@@ -157,10 +157,12 @@ app.post('/posts', (req, res) => {
     title: req.body.title,
     content: req.body.content,
     author: req.body.author
-  })
-    .then(blogPost => 
+  }).then(
+    blogPost => BlogPost.populate(blogPost, {path:"author"})
+  )
+    .then(blogPost => {
       res.status(201).json(blogPost.serialize())
-    )
+    })
     .catch(err => {
       console.error(err)
       res.status(500).json({error: 'Something went wrong'})
@@ -180,7 +182,7 @@ app.delete('/posts/:id', (req, res) => {
 
 app.put('/posts/:id', (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
-    res.status(400).json({
+    res.status(500).json({
       error: 'Request path id and request body id values must match'
     })
   }
@@ -200,7 +202,10 @@ app.put('/posts/:id', (req, res) => {
   console.log(req.params.id)
   BlogPost.findByIdAndUpdate(req.params.id, {$set: updated}, {new: true})
   .then(updatedPost => res.status(204).end())
-  .catch(err => res.status(500).json({message: 'Something went wrong'}))
+  .catch(err => {
+    console.log(err)
+    res.status(500).json({message: 'Something went wrong'})
+  })
 })
 
 app.delete('/:id', (req, res) => {

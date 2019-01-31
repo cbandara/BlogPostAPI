@@ -20,12 +20,16 @@ function tearDownDb() {
   })
 }
 
+const testAuthor = {
+  userName: "cbandara",
+  _id: "5af50c84c082f1e92f83420c",
+  firstName: "Charutha",
+  lastName: "Bandara"
+}
+
 function seedAuthorData() {
   return Author.insertMany([
-    {
-      userName: "cbandara",
-      _id: "5af50c84c082f1e92f83420c"
-    }
+    testAuthor
   ])
 }
 
@@ -34,7 +38,7 @@ function seedBlogPostData() {
   const seedData = []
   for (let i=1; i<=10; i++) {
     seedData.push({
-      author: "5af50c84c082f1e92f83420c",
+      author: testAuthor._id,
       title: faker.lorem.sentence(),
       content: faker.lorem.text()
     })
@@ -92,12 +96,11 @@ describe("Blog Posts", function() {
       const newPost = {
         title: "Lorem ipsum",
         content: "foo bar",
-        author: "5af50c84c082f1e92f83420d",
-        created: Date.now(),
-        comments: []
+        author: testAuthor._id,
+        created: Date.now()
       }
 
-      const expectedKeys = ["id"].concat(Object.keys(newPost));
+      const expectedKeys = ["id","comments"].concat(Object.keys(newPost));
 
       return chai.request(app)
         .post("/posts")
@@ -109,7 +112,7 @@ describe("Blog Posts", function() {
             expect(res.body).to.have.all.keys(expectedKeys);
             expect(res.body.title).to.equal(newPost.title);
             expect(res.body.content).to.equal(newPost.content);
-            // expect(res.body.author).to.equal(newPost.author);
+            expect(res.body.author).to.equal(testAuthor.firstName + " " + testAuthor.lastName);
         })
     })
 
@@ -136,7 +139,8 @@ describe("Blog Posts", function() {
           .then(function(res) {
             const updatedPost = Object.assign(res.body[0], {
               title: "connect the dots",
-              content: "la la la la la"
+              content: "la la la la la",
+              author: testAuthor._id
             });
             console.log(updatedPost)
             return chai
