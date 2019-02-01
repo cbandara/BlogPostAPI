@@ -1,2 +1,9 @@
 language: node_js
 node_js: node
+deploy:
+  provider: heroku
+  api_key:
+    secure: Y+WJmk9lkEsejVfNu/F0LdoIHo0gR4V575ser00ZLgveWEbd+OQn8DBFYLlXbz0/3bSfRsuyit6J+PBOBTU4B8OLslYTtcDRZX1lZ2dFVgalO0bN8kQXECKomHcmtP6xh0/LcmvWFhGH1iuDAbuVXrh3fLNGabZi1HFl3wRo0TrrnW1cMq0EHr0iEEZpndXO35B9y0L5pPwVdnn7Eu0Y7urxynCZsyuCM4ntBC50KgmVcAbe8FFRUEDSIwe3mbsh+Qh/bKDsynhSQ14S7ddFhMyr+jghtZbb0r26PDPjQa5/dgtDMHWL30+nLK6+wdPUkom8CNZDgKTtLABLlw7TiWio90bSWtCZ+oieM8ILmmAWKevBtyEJmsHzobdEJDhHJtIFp/RfverZHKgyGDZF/JMdFHQuL6CIXmhl/ioMk6/DKiJuh6NQo17PwwoVdxDhyAdYC7FSKruCfObcKqfLn38BKsKHk0Lepiy2QRXs57EPJMhQhB3DDb7Yi5JaEInFGDht7YdYY+PvYQgbPeGgCotBhPNIwb+NJXFXboS4PBWGhr9r/NaUJaJHrDYPfJLSaPUrybZm3zJbBHi4VsiiEDKRZu+iCuKdin7skomz9p+ne5mElTW6NuanMIVyMHT+T4woqzg40J7EMNAUB5VOg7/FMHLbaNvHz2P6qmSr84w=
+  app: blooming-sierra-85885
+  on:
+    repo: cbandara/BlogPostAPI
